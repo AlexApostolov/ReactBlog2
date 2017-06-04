@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 export const FETCH_POSTS = 'fetch_posts';
+export const CREATE_POST = 'create_post';
 
 const ROOT_URL = 'http://reduxblog.herokuapp.com/api';
 const API_KEY = '?key=GIRLYFEET';
@@ -14,6 +15,18 @@ export function fetchPosts() {
     // Finally, assign the request to the "payload" property:
     // "payload" property is automatically resolved by the redux-promise library
     // whenver it sees this action come across
+    payload: request
+  };
+}
+
+// The "values" argument is the actual blog post fields and is passed also with the request
+// then the posts-new onSubmit callback
+export function createPost(values, callback) {
+  const request = axios.post(`${ROOT_URL}/posts${API_KEY}`, values)
+    .then(() => callback());
+
+  return {
+    type: CREATE_POST,
     payload: request
   };
 }
